@@ -1,5 +1,6 @@
 package com.nhnacademy.httpserver;
 
+import com.nhnacademy.httpserver.server.Server;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
