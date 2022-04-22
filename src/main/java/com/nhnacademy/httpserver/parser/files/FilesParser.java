@@ -15,11 +15,12 @@ import org.apache.commons.logging.LogFactory;
 
 public class FilesParser implements Parseable<FilesBody> {
     private static final Log log = LogFactory.getLog(FilesParser.class);
+    private String contentTypeHeader;
 
     @Override
     public FilesBody parse(String data) {
         try {
-            byte[] boundary = "------------------------17b58eab1165ba70".getBytes();
+            byte[] boundary = contentTypeHeader.getBytes();
 
             ByteArrayInputStream content = new ByteArrayInputStream(data.getBytes());
 
@@ -51,5 +52,9 @@ public class FilesParser implements Parseable<FilesBody> {
             log.warn(e);
         }
         throw new ParseFailureException("파일 데이터 파싱에 실패했습니다.");
+    }
+
+    public void setContentTypeHeader(String contentTypeHeader) {
+        this.contentTypeHeader = contentTypeHeader;
     }
 }
