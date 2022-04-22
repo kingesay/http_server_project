@@ -1,4 +1,4 @@
-package com.nhnacademy.httpserver.header;
+package com.nhnacademy.httpserver.parser.header;
 
 import java.util.Map;
 

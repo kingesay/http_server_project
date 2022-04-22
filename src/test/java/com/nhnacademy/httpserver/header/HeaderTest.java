@@ -2,6 +2,8 @@ package com.nhnacademy.httpserver.header;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.nhnacademy.httpserver.parser.header.Header;
+import com.nhnacademy.httpserver.parser.header.HeaderParser;
 import java.util.Map;
 import java.util.StringTokenizer;
 import org.junit.jupiter.api.DisplayName;
@@ -17,15 +19,8 @@ class HeaderTest {
             "Host: localhost\r\n" +
             "User-Agent: curl/7.79.1\r\n" +
             "Accept: */*";
-        StringTokenizer sk = new StringTokenizer(clientData, "\r\n");
-        StringBuilder sb = new StringBuilder();
-        String protocols = sk.nextToken();
 
-        while (sk.hasMoreTokens()){
-            sb.append(sk.nextToken()).append(";");
-        }
-
-        Header header = headerParser.parse(protocols, sb.toString());
+        Header header = headerParser.parse(clientData);
         assertThat(header.getMethod()).isEqualTo("GET");
         assertThat(header.getPath()).isEqualTo("/");
         assertThat(header.getProtocolVersion()).isEqualTo("HTTP/1.1");
