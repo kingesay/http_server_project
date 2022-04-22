@@ -1,9 +1,6 @@
 package com.nhnacademy.httpserver.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +23,8 @@ public class ServerReceiver implements Runnable{
 //                    byte[] resultData = in.readAllBytes();
 //                    System.out.println(new String(resultData));
                     in.read(readData);
-                    System.out.println(new String(readData).split("\u0000")[0]);
+                    String read = new String(readData).split("\u0000")[0];
+                    System.out.println(read);
                 }
 //            }
         } catch (Exception e) {
