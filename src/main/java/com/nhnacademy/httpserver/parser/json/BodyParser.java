@@ -16,7 +16,7 @@ public class BodyParser implements Parseable<JsonBody> {
     public JsonBody parse(String data) {
         try {
             Map<String,String> parserData = objectMapper.readValue(data,
-                new TypeReference<Map<String, String>>() {});
+                new TypeReference<>() {});
             return new JsonBody(parserData);
         } catch (JsonProcessingException e) {
             log.warn(e);

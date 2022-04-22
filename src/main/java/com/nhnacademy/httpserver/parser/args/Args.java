@@ -9,7 +9,7 @@ public class Args {
         this.argsBodyData = jsonBodyData;
     }
 
-    public Map<String, String> getJsonBodyData() {
+    public Map<String, String> getArgsBodyData() {
         return argsBodyData;
     }
 }
