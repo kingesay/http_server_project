@@ -9,9 +9,10 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class BodyParser implements Parseable<JsonBody> {
-    private static final Log log = LogFactory.getLog(BodyParser.class);
+public class JsonBodyParser implements Parseable<JsonBody> {
+    private static final Log log = LogFactory.getLog(JsonBodyParser.class);
     ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public JsonBody parse(String data) {
         try {
