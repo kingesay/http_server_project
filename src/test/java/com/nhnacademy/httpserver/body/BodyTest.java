@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.fail;
 import com.nhnacademy.httpserver.ReadFileBodyData;
 import com.nhnacademy.httpserver.parser.args.Args;
 import com.nhnacademy.httpserver.parser.args.ArgsParser;
+import com.nhnacademy.httpserver.parser.files.FilesParser;
 import com.nhnacademy.httpserver.parser.json.JsonBody;
 import com.nhnacademy.httpserver.parser.json.JsonBodyParser;
 import java.io.ByteArrayInputStream;
@@ -94,7 +95,7 @@ public class BodyTest {
             ReadFileBodyData rfd = new ReadFileBodyData();
             multipartStream.readBodyData(rfd);
             System.out.println(rfd.parseBuff());
-            assertThat(rfd.parseBuff()).isEqualTo("# oct_sky_out\r\n");
+            assertThat(rfd.parseBuff()).isEqualTo("{ \"msg1\": \"hello\", \"msg2\": \"world\" }");
 
             nextPart = multipartStream.readBoundary();
         }
@@ -103,6 +104,7 @@ public class BodyTest {
     @Test
     @DisplayName("클라이언트에서 파일을 보내지않으면, 빈 Map이 출력된다.")
     void post_method_files_data_parse_empty_file_case(){
-        fail("구현예정");
+        FilesParser fp = new FilesParser();
+        assertThat(fp.parse("").getFiles()).isEqualTo(Collections.emptyMap());
     }
 }

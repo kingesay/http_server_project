@@ -31,7 +31,6 @@ public class FilesParser implements Parseable<FilesBody> {
             nextPart = multipartStream.skipPreamble();
 
             Map<String, String> filesBody = new HashMap<>();
-
             while (nextPart) {
                 String header = multipartStream.readHeaders();
                 // Content-Disposition: form-data; >>> name="upload" <<< ; filename="README.md"
