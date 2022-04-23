@@ -7,11 +7,9 @@ import com.nhnacademy.httpserver.parser.body.GetBody;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 public class GetMethod extends Method {
-    private final GetBody body;
-
     private static final Log log = LogFactory.getLog(GetMethod.class);
+    private final GetBody body;
 
     public GetMethod(GetBody body) {
         this.body = body;
@@ -21,11 +19,11 @@ public class GetMethod extends Method {
     protected String makeJsonTemplate() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
-            return json;
+            return mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(body);
         } catch (JsonProcessingException e) {
             log.warn(e);
         }
-        throw new ParseFailureException("getmethod json 데이터 파싱에 실패했습니다.");
+        throw new ParseFailureException("GET Method json 데이터 파싱에 실패했습니다.");
     }
 }

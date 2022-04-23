@@ -14,7 +14,7 @@ class GetMethodTest {
 
     @DisplayName("get 방식의 데이터를 json으로 만듬")
     @Test
-    void makeJsonTemplate() {
+    void get_method_server_body_test() {
         Args args = new Args(Collections.emptyMap());
         Map<String , String> headers = new HashMap<>();
         headers.put("Accept" , "*/*");
