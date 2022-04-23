@@ -27,6 +27,7 @@ public abstract class Method {
                 "Access-Control-Allow-Origin: *\r\n" +
                 "Access-Control-Allow-Credentials: true\r\n";
             serverHeaderAndBody += "\r\n" + jsonTemplate;
+
             out.write(serverHeaderAndBody.getBytes());
             out.flush();
         } catch (IOException e) {
@@ -45,8 +46,6 @@ public abstract class Method {
     }
 
     protected abstract String makeJsonTemplate();
-
-    protected abstract void setBody(Body body);
 
     protected abstract void createBody(Header header);
     protected abstract void createBody(Header header, String clientBody);

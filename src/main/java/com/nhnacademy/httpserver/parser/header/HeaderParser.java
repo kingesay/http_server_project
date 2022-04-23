@@ -14,7 +14,7 @@ public class HeaderParser implements Parseable<Header> {
         String protocols = sk.nextToken();
 
         while (sk.hasMoreTokens()){
-            sb.append(sk.nextToken()).append(";");
+            sb.append(sk.nextToken()).append("@");
         }
 
         StringTokenizer st = new StringTokenizer(protocols);
@@ -24,10 +24,10 @@ public class HeaderParser implements Parseable<Header> {
 
         Map<String, String> headerMap = new HashMap<>();
 
-        for (String header : sb.toString().split(";")) {
-            StringTokenizer headerKeyValue = new StringTokenizer(header, ": ");
-            String key = headerKeyValue.nextToken();
-            String value = headerKeyValue.nextToken();
+        for (String header : sb.toString().split("@")) {
+            String[] headerKeyValue = header.split(": ");
+            String key = headerKeyValue[0];
+            String value = headerKeyValue[1];
             headerMap.put(key, value);
         }
 

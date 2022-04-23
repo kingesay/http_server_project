@@ -2,6 +2,7 @@ package com.nhnacademy.httpserver.parser.body;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @JsonPropertyOrder({"args", "headers", "origin", "url"})
 public class GetBody implements Body {
@@ -10,6 +11,7 @@ public class GetBody implements Body {
     private String origin;
     private String url;
 
+    @Autowired
     public GetBody(Map<String, String> args, String origin, String url,
                    Map<String, String> headers) {
         this.args = args;

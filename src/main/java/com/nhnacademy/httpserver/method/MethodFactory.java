@@ -17,6 +17,9 @@ public class MethodFactory {
         if(method instanceof PostMethod){
             method.createBody(header, clientBody);
         }
+        if(method instanceof GetMethod){
+            method.createBody(header);
+        }
         return method;
     }
 }

@@ -9,8 +9,6 @@ import java.io.InputStream;
 import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
 public class HttpServer implements Runnable{
     private static final Log log = LogFactory.getLog(HttpServer.class);
@@ -33,7 +31,8 @@ public class HttpServer implements Runnable{
                 String read = new String(resultData).split("\u0000")[0]; // client all Data
 
                 // header setting
-                String[] headerAndBody = read.split("\r\n\r\n");
+                read = read.replaceFirst("\r\n\r\n", "-\r\n\r\n");
+                String[] headerAndBody = read.split("-\r\n\r\n");
                 HeaderParser headerParser = new HeaderParser();
                 Header header = headerParser.parse(headerAndBody[0]);
                 header.setClientIp(socket.getRemoteSocketAddress().toString());

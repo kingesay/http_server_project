@@ -17,7 +17,12 @@ import com.nhnacademy.httpserver.parser.json.JsonBodyParser;
 import java.util.Collections;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+@Service
+@Scope("prototype")
 public class PostMethod extends Method{
     private static final Log log = LogFactory.getLog(PostMethod.class);
     private PostBody body;
@@ -32,11 +37,6 @@ public class PostMethod extends Method{
             log.warn(e);
         }
         throw new ParseFailureException("POST Method json 데이터 파싱에 실패했습니다.");
-    }
-
-    @Override
-    protected void setBody(Body body) {
-        this.body = (PostBody) body;
     }
 
     @Override

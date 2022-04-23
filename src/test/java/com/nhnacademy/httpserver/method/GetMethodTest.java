@@ -20,9 +20,10 @@ class GetMethodTest {
         headers.put("Accept" , "*/*");
         headers.put("Host" , "test-vm.com");
         headers.put("User-Agent" , "curl/7.64.1");
+        Header header = new Header("200", "/get", "HTTP/1.1", headers);
         GetBody body = new GetBody(args.getArgsBodyData(),"103.243.200.16", "http://test-vm.com/get", headers);
         GetMethod getMethod = new GetMethod();
-        getMethod.setBody(body);
+        getMethod.createBody(header);
         assertThat(getMethod.makeJsonTemplate()).isEqualTo("{\r\n" +
             "  \"args\" : { },\r\n" +
             "  \"headers\" : {\r\n" +

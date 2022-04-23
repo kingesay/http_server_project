@@ -11,7 +11,12 @@ import com.nhnacademy.httpserver.parser.body.GetBody;
 import com.nhnacademy.httpserver.parser.header.Header;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+@Service
+@Scope("prototype")
 public class GetMethod extends Method {
     private static final Log log = LogFactory.getLog(GetMethod.class);
     private GetBody body;
@@ -26,11 +31,6 @@ public class GetMethod extends Method {
             log.warn(e);
         }
         throw new ParseFailureException("GET Method json 데이터 파싱에 실패했습니다.");
-    }
-
-    @Override
-    protected void setBody(Body body) {
-        this.body = (GetBody) body;
     }
 
     @Override

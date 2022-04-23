@@ -16,15 +16,7 @@ n
 Lsrc/main/java/com/nhnacademy/httpserver/exception/ParseFailureException.java,1/d/1df70622abdae912ba812239e63c2653eaa0b467
 q
 Asrc/main/java/com/nhnacademy/httpserver/parser/json/JsonBody.java,b/9/b9d71e104e9fe7ae9ea966f392cc680446430247
-m
-=src/main/java/com/nhnacademy/httpserver/ReadFileBodyData.java,f/8/f816cade8e957cf02a7e9d07b0460b080d71c4bf
-w
-Gsrc/main/java/com/nhnacademy/httpserver/parser/json/JsonBodyParser.java,b/4/b4393aeca90b042e128433c71069cacce0c58165
 q
 Asrc/main/java/com/nhnacademy/httpserver/parser/form/FormBody.java,e/9/e9d10053aeb15302fa068ea9744b1ea02fb845ce
-j
-:src/test/java/com/nhnacademy/httpserver/body/BodyTest.java,1/d/1d1cf0a0cdcd841f95e3b3462e97de12155e0454
-w
-Gsrc/main/java/com/nhnacademy/httpserver/parser/header/HeaderParser.java,1/5/15dd2c87f03e6b68f507f340ffbfda0b7bb0efd7
 m
 =src/main/java/com/nhnacademy/httpserver/parser/Parseable.java,2/3/23e2b406da4db6ef7ccac385187adf5b17e438d3
