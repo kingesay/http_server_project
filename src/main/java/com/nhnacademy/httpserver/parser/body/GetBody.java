@@ -1,21 +1,39 @@
 package com.nhnacademy.httpserver.parser.body;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nhnacademy.httpserver.parser.args.Args;
 import com.nhnacademy.httpserver.parser.header.Header;
+import java.util.Map;
 
 public class GetBody {
-    private Args args;
+    private Map<String,String> args;
+    private Map<String,String> headers;
     private String origin;
     private String url;
-    private Header header;
 
-    public GetBody(Args args, String origin, String url,
-                   Header header) {
+    public GetBody(Map<String,String> args, String origin, String url,
+                   Map<String,String> headers     ) {
         this.args = args;
         this.origin = origin;
         this.url = url;
-        this.header = header;
+        this.headers = headers;
     }
 
-    //TODO
+    public Map<String,String> getArgs() {
+        return args;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+
 }
