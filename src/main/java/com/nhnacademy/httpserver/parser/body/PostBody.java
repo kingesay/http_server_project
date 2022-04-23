@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Map;
 
 @JsonPropertyOrder({"args", "data", "files", "form","headers", "json", "origin", "url"})
-public class PostBody extends GetBody {
+public class PostBody extends GetBody implements Body {
     private String data;
     private Map<String, String> files;
     private Map<String, String> form;

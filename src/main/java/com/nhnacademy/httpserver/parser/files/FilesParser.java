@@ -18,7 +18,8 @@ public class FilesParser implements Parseable<FilesBody> {
     @Override
     public FilesBody parse(String data) {
         try {
-            byte[] boundary = contentTypeHeader.getBytes();
+            String[] contents = contentTypeHeader.split("=");
+            byte[] boundary = contents[contents.length - 1].trim().getBytes();
 
             ByteArrayInputStream content = new ByteArrayInputStream(data.getBytes());
 

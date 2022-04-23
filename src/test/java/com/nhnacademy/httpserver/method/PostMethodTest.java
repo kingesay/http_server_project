@@ -18,7 +18,8 @@ class PostMethodTest {
     @DisplayName("Post method로 호출 시 서버에서 보내는 데이터를 json형식으로 보내는가?")
     void post_method_server_body_test() {
         PostBody body = createPostBody();
-        PostMethod postMethod = new PostMethod(body);
+        PostMethod postMethod = new PostMethod();
+        postMethod.setBody(body);
 
         assertThat(postMethod.makeJsonTemplate()).isEqualTo("{\r\n"
                 +"  \"args\" : { },\r\n"

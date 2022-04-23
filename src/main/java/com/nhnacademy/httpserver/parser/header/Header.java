@@ -7,6 +7,7 @@ public class Header {
     private final String path;
     private final String protocolVersion;
     private final Map<String, String> headerMap;
+    private String clientIp;
 
     public Header(String method, String path, String protocolVersion,
                   Map<String, String> headerMap) {
@@ -30,5 +31,13 @@ public class Header {
 
     public Map<String, String> getHeader(){
         return this.headerMap;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 }

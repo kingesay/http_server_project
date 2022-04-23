@@ -1,5 +1,9 @@
 package com.nhnacademy.httpserver.method;
 
+import com.nhnacademy.httpserver.parser.body.Body;
+import com.nhnacademy.httpserver.parser.body.GetBody;
+import com.nhnacademy.httpserver.parser.body.PostBody;
+import com.nhnacademy.httpserver.parser.header.Header;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import org.apache.commons.logging.Log;
@@ -28,4 +32,9 @@ public abstract class Method {
     }
 
     protected abstract String makeJsonTemplate();
+
+    protected abstract void setBody(Body body);
+
+    protected abstract void createBody(Header header);
+    protected abstract void createBody(Header header, String clientBody);
 }
