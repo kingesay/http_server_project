@@ -33,7 +33,7 @@ public class HttpServer implements Runnable{
                 String read = new String(resultData).split("\u0000")[0]; // client all Data
 
                 // header setting
-                String[] headerAndBody = read.split("\r\n");
+                String[] headerAndBody = read.split("\r\n\r\n");
                 HeaderParser headerParser = new HeaderParser();
                 Header header = headerParser.parse(headerAndBody[0]);
                 header.setClientIp(socket.getRemoteSocketAddress().toString());

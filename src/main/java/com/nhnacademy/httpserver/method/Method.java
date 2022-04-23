@@ -6,6 +6,8 @@ import com.nhnacademy.httpserver.parser.body.PostBody;
 import com.nhnacademy.httpserver.parser.header.Header;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,7 +16,18 @@ public abstract class Method {
 
     public final void writeOutBody(DataOutputStream out) {
         try {
-            out.write(makeJsonTemplate().getBytes());
+            String jsonTemplate = makeJsonTemplate();
+
+            String serverHeaderAndBody = "HTTP/1.1 200 OK\r\n" +
+                "Date: "+ LocalDateTime.now()+ "\r\n" +
+                "Content-Type: application/json\r\n" +
+                "Content-Length: " + jsonTemplate.length()+"\r\n" +
+                "Connection: keep-alive\r\n" +
+                "Server: test-vm/0.0.1\r\n" +
+                "Access-Control-Allow-Origin: *\r\n" +
+                "Access-Control-Allow-Credentials: true\r\n";
+            serverHeaderAndBody += "\r\n" + jsonTemplate;
+            out.write(serverHeaderAndBody.getBytes());
             out.flush();
         } catch (IOException e) {
             log.error(e);
