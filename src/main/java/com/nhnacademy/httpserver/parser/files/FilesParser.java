@@ -1,7 +1,5 @@
 package com.nhnacademy.httpserver.parser.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.nhnacademy.httpserver.ReadFileBodyData;
 import com.nhnacademy.httpserver.exception.ParseFailureException;
 import com.nhnacademy.httpserver.parser.Parseable;

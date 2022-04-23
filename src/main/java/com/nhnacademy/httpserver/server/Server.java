@@ -1,8 +1,6 @@
 package com.nhnacademy.httpserver.server;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.apache.commons.logging.Log;
@@ -18,10 +16,7 @@ public class Server {
         try(ServerSocket serverSocket = new ServerSocket(80)){
             while (true){
                 Socket socket = serverSocket.accept();
-                InputStreamReader in = new InputStreamReader(socket.getInputStream());
-//                DataOutputStream out = (DataOutputStream) socket.getOutputStream();
-                Thread receiver = new Thread(new ServerReceiver(socket.getInputStream()));
-//                out = new DataOutputStream();
+                Thread receiver = new Thread(new HttpServer(socket));
                 receiver.start();
             }
         } catch (IOException e) {
