@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class BodyTest {
+class BodyTest {
 
     @Test
     @DisplayName("json데이터가 클라이언트 body data로 들어오면, 파싱하여 Map으로 변환한다.")

@@ -17,7 +17,6 @@ import com.nhnacademy.httpserver.parser.json.JsonBodyParser;
 import java.util.Collections;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -48,43 +47,35 @@ public class PostMethod extends Method{
     protected void createBody(Header header, String clientBody) {
         Args args = new ArgsParser().parse(header.getPath());
         String url = "http://test-vm.com" + header.getPath();
+        String data = "";
         FilesBody filesBody = new FilesBody(Collections.emptyMap());
         FormBody formBody = new FormBody(Collections.emptyMap());
+        JsonBody jsonBody = new JsonBody(Collections.emptyMap());
 
         if(header.getHeader().get("Content-Type").equals("application/json")){
             JsonBodyParser parser = new JsonBodyParser();
-            JsonBody jsonBody = parser.parse(clientBody);
-
-            this.body = new PostBody(args.getArgsBodyData(),
-                header.getClientIp(),
-                url,
-                header.getHeader(),
-                clientBody,
-                filesBody.getFiles(),
-                formBody.getForm(),
-                jsonBody.getJsonBodyData()
-            );
+            jsonBody = parser.parse(clientBody);
+            data = clientBody;
         } else {
             FilesParser filesParser = new FilesParser();
             String fileContent = getFileContent(header, clientBody);
             filesParser.setContentTypeHeader(header.getHeader().get("Content-Type"));
             filesBody = filesParser.parse(fileContent);
-
-            this.body = new PostBody(args.getArgsBodyData(),
-                header.getClientIp(),
-                url,
-                header.getHeader(),
-                "",
-                filesBody.getFiles(),
-                formBody.getForm(),
-                null
-            );
         }
+
+        this.body = Body.factoryPostBody(
+            args.getArgsBodyData(),
+            header.getClientIp(),
+            url,
+            header.getHeader(),
+            data,
+            filesBody.getFiles(),
+            formBody.getForm(),
+            jsonBody.getJsonBodyData()
+        );
     }
 
     private String getFileContent(Header header, String clientBody) {
-        StringBuilder fileContent = new StringBuilder(header.getHeader().get("Content-Type"));
-        fileContent.append("\r\n").append(clientBody);
-        return fileContent.toString();
+        return header.getHeader().get("Content-Type") + "\r\n" + clientBody;
     }
 }

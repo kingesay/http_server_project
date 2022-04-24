@@ -12,19 +12,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class Server {
     private static final Log log = LogFactory.getLog(Server.class);
+    private final MethodFactory factory;
+
     @Autowired
-    private MethodFactory factory;
+    public Server(MethodFactory factory) {
+        this.factory = factory;
+    }
 
     @SuppressWarnings("java:S2189")
     public void open(){
         try(ServerSocket serverSocket = new ServerSocket(80)){
             while (true){
                 Socket socket = serverSocket.accept();
-                Thread receiver = new Thread(new HttpServer(socket, factory));
-                receiver.start();
+                Thread session = new HttpServer(socket, factory);
+                runSession(session);
             }
         } catch (IOException e) {
             log.warn(e);
+        }
+    }
+
+    private void runSession(Thread receiver) {
+        try {
+            receiver.start();
+            receiver.join();
+        } catch (InterruptedException e) {
+            log.error(e);
+            receiver.interrupt();
         }
     }
 }

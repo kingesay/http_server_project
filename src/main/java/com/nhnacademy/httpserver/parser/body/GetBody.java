@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @JsonPropertyOrder({"args", "headers", "origin", "url"})
-public class GetBody implements Body {
+public class GetBody extends Body {
     private Map<String, String> args;
     private Map<String, String> headers;
     private String origin;

@@ -7,11 +7,10 @@ import com.nhnacademy.httpserver.exception.method.WrongMethodAccessException;
 import com.nhnacademy.httpserver.parser.args.Args;
 import com.nhnacademy.httpserver.parser.args.ArgsParser;
 import com.nhnacademy.httpserver.parser.body.Body;
-import com.nhnacademy.httpserver.parser.body.GetBody;
 import com.nhnacademy.httpserver.parser.header.Header;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Scope("prototype")
 public class GetMethod extends Method {
     private static final Log log = LogFactory.getLog(GetMethod.class);
-    private GetBody body;
+    private Body body;
 
     @Override
     protected String makeJsonTemplate() {
@@ -38,7 +37,13 @@ public class GetMethod extends Method {
         Args args = new ArgsParser().parse(header.getPath());
         String ip = header.getClientIp();
         String url = "http://test-vm.com" + header.getPath();
-        body = new GetBody(args.getArgsBodyData(),
+
+        if(Objects.equals(header.getPath(), "/ip")){
+            body = Body.factoryGetOriginBody(ip);
+            return;
+        }
+
+        body = Body.factoryGetBody(args.getArgsBodyData(),
             ip, url, header.getHeader());
     }
 

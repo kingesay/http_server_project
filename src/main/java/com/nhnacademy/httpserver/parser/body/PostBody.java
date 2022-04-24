@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @JsonPropertyOrder({"args", "data", "files", "form","headers", "json", "origin", "url"})
-public class PostBody implements Body {
+public class PostBody extends Body {
     private final Map<String, String> args;
     private final Map<String, String> headers;
     private final String origin;
