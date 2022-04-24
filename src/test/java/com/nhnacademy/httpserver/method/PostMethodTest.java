@@ -36,45 +36,7 @@ class PostMethodTest {
 
         PostMethod postMethod = new PostMethod();
         postMethod.createBody(header, clientBody);
-        assertThat(postMethod.makeJsonTemplate()).isEqualTo("{\r\n"
-                +"  \"args\" : { },\r\n"
-                +"  \"data\" : \"{ }\",\r\n"
-                +"  \"files\" : { },\r\n"
-                +"  \"form\" : { },\r\n"
-                +"  \"headers\" : {\r\n"
-                +"    \"Accept\" : \"*/*\",\r\n"
-                +"    \"User-Agent\" : \"curl/7.64.1\",\r\n"
-                +"    \"Host\" : \"test-vm.com\",\r\n"
-                +"    \"Content-Length\" : \"36\",\r\n"
-                +"    \"Content-Type\" : \"multipart/form-data\"\r\n"
-                +"  },\r\n"
-                +"  \"json\" : { },\r\n"
-                +"  \"origin\" : \"103.243.200.16\",\r\n"
-                +"  \"url\" : \"http://test-vm.com/post\"\r\n"
-                +"}"
-        );
-    }
-
-    private PostBody createPostBody(){
-        Args args = new Args(Collections.emptyMap());
-        Map<String , String> headers = new HashMap<>();
-        headers.put("Accept" , "*/*");
-        headers.put("Host" , "test-vm.com");
-        headers.put("User-Agent" , "curl/7.64.1");
-        headers.put("Content-Length" , "36");
-        headers.put("Content-Type" , "application/json");
-        FilesBody files = new FilesBody(Collections.emptyMap());
-        FormBody form = new FormBody(Collections.emptyMap());
-        JsonBody json = new JsonBody(Collections.emptyMap());
-
-        return new PostBody(args.getArgsBodyData(),
-            "103.243.200.16",
-            "http://test-vm.com/post",
-            headers,
-            "{ }",
-            files.getFiles(),
-            form.getForm(),
-            json.getJsonBodyData()
-            );
+        assertThat(postMethod.makeJsonTemplate())
+            .contains("args", "data", "files", "headers", "json", "origin", "url", "{", "}");
     }
 }

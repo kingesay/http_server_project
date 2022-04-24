@@ -18,35 +18,37 @@ public class FilesParser implements Parseable<FilesBody> {
     @Override
     public FilesBody parse(String data) {
         try {
-            String[] contents = contentTypeHeader.split("=");
-            byte[] boundary = contents[contents.length - 1].trim().getBytes();
+            if (!data.isEmpty()) {
 
-            ByteArrayInputStream content = new ByteArrayInputStream(data.getBytes());
+                String[] contents = contentTypeHeader.split("=");
+                byte[] boundary = contents[contents.length - 1].trim().getBytes();
 
-            MultipartStream multipartStream =
-                new MultipartStream(content, boundary, 4096, null);
+                ByteArrayInputStream content = new ByteArrayInputStream(data.getBytes());
 
-            boolean nextPart = false;
+                MultipartStream multipartStream =
+                    new MultipartStream(content, boundary, 4096, null);
 
-            nextPart = multipartStream.skipPreamble();
+                boolean nextPart = false;
 
-            Map<String, String> filesBody = new HashMap<>();
-            while (nextPart) {
-                String header = multipartStream.readHeaders();
-                // Content-Disposition: form-data; >>> name="upload" <<< ; filename="README.md"
-                String key = header.split("; ")[1]
-                    .substring(5) // name="upload" >>> "upload"
-                    .replace("\"", ""); // "upload" >>> upload
+                nextPart = multipartStream.skipPreamble();
 
-                ReadFileBodyData rfd = new ReadFileBodyData();
-                multipartStream.readBodyData(rfd);
-                String value = rfd.parseBuff();
+                Map<String, String> filesBody = new HashMap<>();
+                while (nextPart) {
+                    String header = multipartStream.readHeaders();
+                    // Content-Disposition: form-data; >>> name="upload" <<< ; filename="README.md"
+                    String key = header.split("; ")[1]
+                        .substring(5) // name="upload" >>> "upload"
+                        .replace("\"", ""); // "upload" >>> upload
 
-                filesBody.put(key, value);
-                nextPart = multipartStream.readBoundary();
+                    ReadFileBodyData rfd = new ReadFileBodyData();
+                    multipartStream.readBodyData(rfd);
+                    String value = rfd.parseBuff();
+
+                    filesBody.put(key, value);
+                    nextPart = multipartStream.readBoundary();
+                }
+                return new FilesBody(filesBody);
             }
-
-            return new FilesBody(filesBody);
         } catch (IOException e) {
             log.warn(e);
         }

@@ -1,11 +1,15 @@
 package com.nhnacademy.httpserver.body;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.fail;
 
 import com.nhnacademy.httpserver.ReadFileBodyData;
+import com.nhnacademy.httpserver.exception.ParseFailureException;
+import com.nhnacademy.httpserver.parser.Parseable;
 import com.nhnacademy.httpserver.parser.args.Args;
 import com.nhnacademy.httpserver.parser.args.ArgsParser;
+import com.nhnacademy.httpserver.parser.files.FilesBody;
 import com.nhnacademy.httpserver.parser.files.FilesParser;
 import com.nhnacademy.httpserver.parser.json.JsonBody;
 import com.nhnacademy.httpserver.parser.json.JsonBodyParser;
@@ -13,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Objects;
 import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.fileupload.MultipartStream.ProgressNotifier;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +25,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BodyTest {
+    Parseable<Object> parser;
 
     @Test
     @DisplayName("json데이터가 클라이언트 body data로 들어오면, 파싱하여 Map으로 변환한다.")
     void post_method_test() {
-        JsonBodyParser bodyParser = bodyParser = new JsonBodyParser();;
+        JsonBodyParser bodyParser = new JsonBodyParser();
         String bodyData = "{\"msg1\": \"jack\", \"msg2\": \"jack\"}";
         JsonBody body = bodyParser.parse(bodyData);
 
@@ -77,34 +83,18 @@ class BodyTest {
             + "\r\n"
             + "--------------------------17b58eab1165ba70--\r\n";
 
-        byte[] boundary = "------------------------17b58eab1165ba70".getBytes();
-
-        ByteArrayInputStream content = new ByteArrayInputStream(files.getBytes());
-
-        MultipartStream multipartStream =
-            new MultipartStream(content, boundary, 4096, null);
-
-        boolean nextPart = multipartStream.skipPreamble();
-        // 클라이언트에서 파일을 쉽게 보내는 법입니다.
-        while (nextPart) {
-            String header = multipartStream.readHeaders();
-            System.out.println("");
-            System.out.println("Headers:");
-            System.out.println(header);
-
-            ReadFileBodyData rfd = new ReadFileBodyData();
-            multipartStream.readBodyData(rfd);
-            System.out.println(rfd.parseBuff());
-            assertThat(rfd.parseBuff()).isEqualTo("{ \"msg1\": \"hello\", \"msg2\": \"world\" }");
-
-            nextPart = multipartStream.readBoundary();
-        }
+        FilesParser filesparser = new FilesParser();
+        filesparser.setContentTypeHeader("------------------------17b58eab1165ba70");
+        FilesBody filesBody = filesparser.parse(files);
+        assertThat(filesBody.getFiles()).containsEntry("upload",  "{ \"msg1\": \"hello\", \"msg2\": \"world\" }");
     }
 
     @Test
     @DisplayName("클라이언트에서 파일을 보내지않으면, 빈 Map이 출력된다.")
     void post_method_files_data_parse_empty_file_case(){
         FilesParser fp = new FilesParser();
-        assertThat(fp.parse("").getFiles()).isEqualTo(Collections.emptyMap());
+        assertThatThrownBy(() -> fp.parse(""))
+            .isInstanceOf(ParseFailureException.class)
+            .hasMessageContaining("파싱", "실패");
     }
 }
